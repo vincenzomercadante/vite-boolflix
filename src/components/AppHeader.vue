@@ -8,13 +8,15 @@ export default {
   components: {
     AppSearch,
   },
+
+  emits: ["search-button-clicked"],
 };
 </script>
 
 <template>
   <header class="p-3">
     <nav class="d-flex">
-      <AppSearch />
+      <AppSearch @search-button-clicked="$emit('search-button-clicked')" />
     </nav>
   </header>
 </template>

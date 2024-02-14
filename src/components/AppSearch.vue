@@ -13,7 +13,7 @@ export default {
 
   props: {},
 
-  emits: {},
+  emits: ["search-button-clicked"],
 };
 </script>
 
@@ -27,7 +27,12 @@ export default {
       placeholder="Find here your films!"
       v-model="store.textSearched"
     />
-    <button class="btn btn-primary ms-3">Search</button>
+    <button
+      class="btn btn-primary ms-3"
+      @click="$emit('search-button-clicked')"
+    >
+      Search
+    </button>
   </div>
 </template>
 
