@@ -3,8 +3,6 @@
 import AppSearch from "./AppSearch.vue";
 
 export default {
-  data() {},
-
   components: {
     AppSearch,
   },

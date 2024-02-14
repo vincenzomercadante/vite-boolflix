@@ -2,8 +2,6 @@
 import AppMovie from "./AppMovie.vue";
 
 export default {
-  data() {},
-
   props: {
     films: Array,
   },
@@ -17,12 +15,7 @@ export default {
     <div class="container">
       <div class="row g-5">
         <div v-for="film in films" class="col-4">
-          <AppMovie
-            :title="film.title"
-            :originalTitle="film.original_title"
-            :originalLanguage="film.original_language"
-            :vote="film.vote_average"
-          />
+          <AppMovie :show="film" />
         </div>
       </div>
     </div>

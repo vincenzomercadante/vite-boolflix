@@ -12,7 +12,7 @@ import AppMain from "./components/AppMain.vue";
 export default {
   data() {
     return {
-      films: [],
+      shows: [],
     };
   },
 
@@ -21,22 +21,26 @@ export default {
     AppMain,
   },
 
-  computed: {
-    apiRequestMovies() {
-      return `${store.apiUri}${apiKey}`;
-    },
-  },
-
   props: {},
 
   methods: {
     sendSearch() {
       axios
         .get(
-          `${store.apiUri}${store.apiMovie}${store.apiKey}&query=${store.textSearched}`
+          // `${store.apiUri}${store.apiMovie}${store.apiKey}&query=${store.textSearched}`
+          `${store.apiUri}${store.apiMulti}`,
+          {
+            params: {
+              api_key: store.apiKey,
+              query: store.textSearched,
+            },
+          }
         )
         .then((res) => {
-          this.films = res.data.results;
+          const results = res.data.results;
+          this.shows = results.filter(
+            (result) => result.media_type !== "person"
+          );
         });
     },
   },
@@ -45,7 +49,7 @@ export default {
 
 <template>
   <AppHeader @search-button-clicked="sendSearch" />
-  <AppMain :films="films" />
+  <AppMain :films="shows" />
 </template>
 
 <style lang="scss">
