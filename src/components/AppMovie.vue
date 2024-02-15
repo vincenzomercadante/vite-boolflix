@@ -28,7 +28,7 @@ export default {
           break;
 
         default:
-          flag = text;
+          flag = "";
       }
       return flag;
     },
@@ -39,18 +39,19 @@ export default {
 <template>
   <div class="p-3">
     <ul>
-      <li><b class="me-2">Title:</b>{{ show.title || show.name }}</li>
-      <li>
-        <b class="me-2">Original Title:</b
-        >{{ show.original_title || show.original_name }}
-      </li>
+      <li><b class="me-2">Title:</b>{{ show.title }}</li>
+      <li><b class="me-2">Original Title:</b>{{ show.originalTitle }}</li>
       <li>
         <b class="me-2">Original Language:</b>
-        <img :src="changeTextFlag(show.original_language)" alt="" />
+        <img
+          v-if="changeTextFlag(show.language)"
+          :src="changeTextFlag(show.language)"
+          alt=""
+        />
+        <span v-else>{{ show.language }}</span>
       </li>
       <li>
-        <b class="me-2">Vote:</b
-        >{{ show.vote_average.toFixed(0) || "not inserted" }}
+        <b class="me-2">Vote:</b>{{ show.vote.toFixed(0) || "not inserted" }}
       </li>
     </ul>
   </div>

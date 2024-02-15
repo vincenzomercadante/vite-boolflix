@@ -1,4 +1,6 @@
 <script>
+import { store } from "../store/store";
+
 // import components
 import AppSearch from "./AppSearch.vue";
 
@@ -8,13 +10,20 @@ export default {
   },
 
   emits: ["search-button-clicked"],
+
+  methods: {
+    handleQuery(query) {
+      store.textSearched = query;
+      this.$emit("search-button-clicked");
+    },
+  },
 };
 </script>
 
 <template>
   <header class="p-3">
     <nav class="d-flex">
-      <AppSearch @search-button-clicked="$emit('search-button-clicked')" />
+      <AppSearch @search-button-clicked="handleQuery" />
     </nav>
   </header>
 </template>

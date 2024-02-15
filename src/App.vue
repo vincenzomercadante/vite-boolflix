@@ -12,6 +12,9 @@ import AppMain from "./components/AppMain.vue";
 export default {
   data() {
     return {
+      store,
+      movies: [],
+      tvSeries: [],
       shows: [],
     };
   },
@@ -24,32 +27,65 @@ export default {
   props: {},
 
   methods: {
-    sendSearch() {
+    fetchMovies() {
       axios
         .get(
           // `${store.apiUri}${store.apiMovie}${store.apiKey}&query=${store.textSearched}`
-          `${store.apiUri}${store.apiMulti}`,
+          `${store.api.apiUri}${store.api.apiMovie}`,
           {
             params: {
-              api_key: store.apiKey,
+              api_key: store.api.apiKey,
               query: store.textSearched,
             },
           }
         )
         .then((res) => {
-          const results = res.data.results;
-          this.shows = results.filter(
-            (result) => result.media_type !== "person"
-          );
+          this.movies = res.data.results.map((movie) => {
+            return {
+              title: movie.title,
+              originalTitle: movie.original_title,
+              language: movie.original_language,
+              vote: movie.vote_average,
+            };
+          });
         });
+    },
+
+    fetchTvSeries() {
+      axios
+        .get(
+          // `${store.apiUri}${store.apiMovie}${store.apiKey}&query=${store.textSearched}`
+          `${store.api.apiUri}${store.api.apiTvSeries}`,
+          {
+            params: {
+              api_key: store.api.apiKey,
+              query: store.textSearched,
+            },
+          }
+        )
+        .then((res) => {
+          this.tvSeries = res.data.results.map((movie) => {
+            return {
+              title: movie.name,
+              originalTitle: movie.original_name,
+              language: movie.original_language,
+              vote: movie.vote_average,
+            };
+          });
+        });
+    },
+
+    searchResults() {
+      this.fetchMovies();
+      this.fetchTvSeries();
     },
   },
 };
 </script>
 
 <template>
-  <AppHeader @search-button-clicked="sendSearch" />
-  <AppMain :films="shows" />
+  <AppHeader @search-button-clicked="searchResults" />
+  <AppMain :films="movies" :series="tvSeries" />
 </template>
 
 <style lang="scss">

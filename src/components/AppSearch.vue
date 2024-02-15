@@ -6,11 +6,9 @@ export default {
   data() {
     return {
       store,
+      textSearched: "",
     };
   },
-
-  components: {},
-
   props: {},
 
   emits: ["search-button-clicked"],
@@ -25,11 +23,11 @@ export default {
       id=""
       class="form-control"
       placeholder="Find here your films!"
-      v-model="store.textSearched"
+      v-model="textSearched"
     />
     <button
       class="btn btn-primary ms-3"
-      @click="$emit('search-button-clicked')"
+      @click="$emit('search-button-clicked', textSearched)"
     >
       Search
     </button>
