@@ -46,6 +46,7 @@ export default {
               originalTitle: movie.original_title,
               language: movie.original_language,
               vote: movie.vote_average,
+              imgPath: movie.poster_path,
             };
           });
         });
@@ -70,6 +71,7 @@ export default {
               originalTitle: movie.original_name,
               language: movie.original_language,
               vote: movie.vote_average,
+              imgPath: movie.poster_path,
             };
           });
         });

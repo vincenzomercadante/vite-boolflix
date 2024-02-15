@@ -1,4 +1,6 @@
 <script>
+import { store } from "../store/store";
+
 export default {
   props: {
     show: Object,
@@ -32,12 +34,24 @@ export default {
       }
       return flag;
     },
+
+    getPath() {
+      return store.showPoster + this.show.imgPath;
+    },
+
+    getVoted(vote) {
+      vote = Math.ceil(vote / 2);
+      return vote;
+    },
   },
 };
 </script>
 
 <template>
   <div class="p-3">
+    <figure>
+      <img :src="getPath()" />
+    </figure>
     <ul>
       <li><b class="me-2">Title:</b>{{ show.title }}</li>
       <li><b class="me-2">Original Title:</b>{{ show.originalTitle }}</li>
@@ -51,7 +65,15 @@ export default {
         <span v-else>{{ show.language }}</span>
       </li>
       <li>
-        <b class="me-2">Vote:</b>{{ show.vote.toFixed(0) || "not inserted" }}
+        <b class="me-2">Vote:</b>
+        <font-awesome-icon
+          v-for="i in 5"
+          :icon="
+            i <= getVoted(show.vote) ? 'fa-solid fa-star' : 'fa-regular fa-star'
+          "
+        />
+        {{ getVoted(show.vote) }}
+        {{ show.vote }}
       </li>
     </ul>
   </div>
@@ -62,6 +84,9 @@ div {
   background-color: lightcyan;
   border-radius: 20px;
   box-shadow: 0px 0px 15px 5px #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   li {
     margin-bottom: 10px;
