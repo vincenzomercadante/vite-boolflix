@@ -13,9 +13,6 @@ export default {
   data() {
     return {
       store,
-      movies: [],
-      tvSeries: [],
-      shows: [],
     };
   },
 
@@ -36,17 +33,19 @@ export default {
             params: {
               api_key: store.api.apiKey,
               query: store.textSearched,
+              language: "it-IT",
             },
           }
         )
         .then((res) => {
-          this.movies = res.data.results.map((movie) => {
+          store.movies = res.data.results.map((movie) => {
             return {
               title: movie.title,
               originalTitle: movie.original_title,
               language: movie.original_language,
               vote: movie.vote_average,
               imgPath: movie.poster_path,
+              showedInfo: false,
             };
           });
         });
@@ -61,18 +60,21 @@ export default {
             params: {
               api_key: store.api.apiKey,
               query: store.textSearched,
+              language: "it-IT",
             },
           }
         )
         .then((res) => {
-          this.tvSeries = res.data.results.map((movie) => {
-            return {
-              title: movie.name,
-              originalTitle: movie.original_name,
-              language: movie.original_language,
-              vote: movie.vote_average,
-              imgPath: movie.poster_path,
-            };
+          console.log("ciao");
+          store.tvSeries = res.data.results.map((movie) => {
+            return ({
+              title,
+              originalTitle,
+              language,
+              vote,
+              imgPath,
+              showedInfo,
+            } = movie);
           });
         });
     },
@@ -87,10 +89,11 @@ export default {
 
 <template>
   <AppHeader @search-button-clicked="searchResults" />
-  <AppMain :films="movies" :series="tvSeries" />
+  <AppMain />
 </template>
 
 <style lang="scss">
+@use "./styles/general.scss" as *;
 // Import all of Bootstrap's CSS
 @import "bootstrap/scss/bootstrap";
 </style>

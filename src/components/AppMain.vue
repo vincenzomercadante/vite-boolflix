@@ -1,29 +1,35 @@
 <script>
+import { store } from "../store/store";
+
 import AppMovie from "./AppMovie.vue";
 
 export default {
-  props: {
-    films: Array,
-    series: Array,
+  data() {
+    return {
+      store,
+    };
   },
-
   components: { AppMovie },
 };
 </script>
 
 <template>
-  <main class="p-5">
+  <main>
     <div class="container">
-      <div class="row g-5">
-        <div v-for="film in films" class="col-4">
-          <AppMovie :show="film" />
-        </div>
-        <div v-for="serie in series" class="col-4">
-          <AppMovie :show="serie" />
+      <div class="row g-3">
+        <div v-for="movie in store.movies" class="col-3">
+          <AppMovie :show="movie" />
         </div>
       </div>
     </div>
   </main>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+main {
+  height: calc(100vh - 100px);
+  padding: 2rem 0;
+  background-color: #333;
+  overflow: auto;
+}
+</style>

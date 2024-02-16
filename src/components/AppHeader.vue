@@ -31,6 +31,6 @@ export default {
 <style lang="scss" scoped>
 header {
   min-height: 100px;
-  background-color: #333;
+  background-color: #111;
 }
 </style>
