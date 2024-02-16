@@ -13,4 +13,8 @@ export const store = reactive({
 
   movies: [],
   tvSeries: [],
+
+  loader: {
+    showed: false,
+  },
 });

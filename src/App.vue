@@ -46,6 +46,7 @@ export default {
               vote: movie.vote_average,
               imgPath: movie.poster_path,
               showedInfo: false,
+              overview: movie.overview,
             };
           });
         });
@@ -65,23 +66,27 @@ export default {
           }
         )
         .then((res) => {
-          console.log("ciao");
-          store.tvSeries = res.data.results.map((movie) => {
-            return ({
-              title,
-              originalTitle,
-              language,
-              vote,
-              imgPath,
-              showedInfo,
-            } = movie);
+          store.tvSeries = res.data.results.map((serie) => {
+            return {
+              title: serie.name,
+              originalTitle: serie.original_name,
+              language: serie.original_language,
+              vote: serie.vote_average,
+              imgPath: serie.poster_path,
+              showedInfo: false,
+              overview: serie.overview,
+            };
           });
+          store.loader.showed = false;
         });
     },
 
     searchResults() {
-      this.fetchMovies();
-      this.fetchTvSeries();
+      if (store.textSearched) {
+        store.loader.showed = true;
+        this.fetchMovies();
+        this.fetchTvSeries();
+      }
     },
   },
 };

@@ -14,7 +14,10 @@ export default {
 
   methods: {
     getPath() {
-      return store.showPoster + this.show.imgPath;
+      const posterPath = this.show.imgPath
+        ? store.showPoster + this.show.imgPath
+        : "https://linnea.com.ar/wp-content/uploads/2018/09/404PosterNotFound.jpg";
+      return posterPath;
     },
 
     changeTextFlag(text) {
@@ -62,34 +65,47 @@ export default {
 
 <template>
   <div class="movie-card">
-    <div class="movie-image">
-      <img :src="getPath()" alt="show image" />
-    </div>
-    <div class="movie-info">
-      <ul>
-        <li><b class="me-2">Title:</b>{{ show.title }}</li>
-        <li><b class="me-2">Original Title:</b>{{ show.originalTitle }}</li>
-        <li>
-          <b class="me-2">Original Language:</b>
-          <img
-            v-if="changeTextFlag(show.language)"
-            :src="changeTextFlag(show.language)"
-            alt=""
-          />
-          <span v-else>{{ show.language }}</span>
-        </li>
-        <li>
-          <b class="me-2">Vote:</b>
-          <font-awesome-icon
-            v-for="i in 5"
-            :icon="
-              i <= getVoted(show.vote)
-                ? 'fa-solid fa-star'
-                : 'fa-regular fa-star'
-            "
-          />
-        </li>
-      </ul>
+    <div class="card-content">
+      <div class="card-front">
+        <img :src="getPath()" alt="show image" />
+      </div>
+      <div class="card-back">
+        <ul>
+          <li><span class="info-title">Title:</span>{{ show.title }}</li>
+          <li>
+            <span class="info-title">Original Title:</span
+            >{{ show.originalTitle }}
+          </li>
+          <li>
+            <span class="info-title">Original Language: </span>
+            <img
+              v-if="changeTextFlag(show.language)"
+              :src="changeTextFlag(show.language)"
+              alt=""
+            />
+
+            <span v-else>{{ show.language }}</span>
+          </li>
+          <li>
+            <span class="info-title">Vote:</span>
+            <font-awesome-icon
+              v-for="i in 5"
+              :icon="
+                i <= getVoted(show.vote)
+                  ? 'fa-solid fa-star'
+                  : 'fa-regular fa-star'
+              "
+              class="vote-icon"
+            />
+          </li>
+          <li>
+            <span class="info-title">Overview:</span>
+            <p class="overview">
+              {{ show.overview }}
+            </p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -97,30 +113,64 @@ export default {
 <style lang="scss" scoped>
 .movie-card {
   height: 468px;
-  position: relative;
+  perspective: 1000px;
 
-  .movie-image {
-    width: 100%;
+  .card-content {
+    position: relative;
     height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  .card-front {
     img {
       width: 100%;
       height: 100%;
     }
   }
 
-  .movie-info {
-    display: none;
-    padding: 2rem 1rem;
-    height: 100%;
-    background-color: rgba($color: #111, $alpha: 0.6);
+  .card-back {
+    padding: 1rem;
+    background-color: rgba($color: #111, $alpha: 1);
     color: white;
+    overflow: auto;
+    transform: rotateY(180deg);
+
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        margin-bottom: 12px;
+        text-align: center;
+        .info-title {
+          display: inline-block;
+          font-weight: bold;
+          margin-right: 12px;
+          text-transform: uppercase;
+        }
+
+        img {
+          width: 24px;
+        }
+
+        .vote-icon {
+          color: goldenrod;
+        }
+      }
+    }
   }
 
-  &:hover .movie-image {
-    display: none;
+  .card-back,
+  .card-front {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    backface-visibility: hidden;
   }
-  &:hover .movie-info {
-    display: block;
+
+  &:hover .card-content {
+    transform: rotateY(180deg);
   }
 }
 </style>

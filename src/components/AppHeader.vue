@@ -22,15 +22,24 @@ export default {
 
 <template>
   <header class="p-3">
-    <nav class="d-flex">
-      <AppSearch @search-button-clicked="handleQuery" />
+    <nav class="d-flex justify-content-between align-items-center">
+      <h1>BOOLFLIX</h1>
+      <div>
+        <AppSearch @search-button-clicked="handleQuery" />
+      </div>
     </nav>
   </header>
 </template>
 
 <style lang="scss" scoped>
 header {
-  min-height: 100px;
   background-color: #111;
+
+  h1 {
+    height: 65px;
+    color: rgb(177, 35, 35);
+    font-weight: bold;
+    margin: 0;
+  }
 }
 </style>
